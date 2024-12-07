@@ -1,0 +1,92 @@
+[
+    {
+        "id": 1,
+        "nombre": "P\u00e9rez",
+        "numeroMiembros": 5,
+        "generadorAdquirido": true
+    },
+    {
+        "id": 2,
+        "nombre": "Gonz\u00e1lez",
+        "numeroMiembros": 4,
+        "generadorAdquirido": false
+    },
+    {
+        "id": 3,
+        "nombre": "Mart\u00ednez",
+        "numeroMiembros": 3,
+        "generadorAdquirido": true
+    },
+    {
+        "id": 4,
+        "nombre": "L\u00f3pez",
+        "numeroMiembros": 6,
+        "generadorAdquirido": false
+    },
+    {
+        "id": 5,
+        "nombre": "Garc\u00eda",
+        "numeroMiembros": 2,
+        "generadorAdquirido": true
+    },
+    {
+        "id": 6,
+        "nombre": "Rodr\u00edguez",
+        "numeroMiembros": 7,
+        "generadorAdquirido": false
+    },
+    {
+        "id": 7,
+        "nombre": "Hern\u00e1ndez",
+        "numeroMiembros": 4,
+        "generadorAdquirido": true
+    },
+    {
+        "id": 8,
+        "nombre": "S\u00e1nchez",
+        "numeroMiembros": 3,
+        "generadorAdquirido": false
+    },
+    {
+        "id": 9,
+        "nombre": "Torres",
+        "numeroMiembros": 5,
+        "generadorAdquirido": true
+    },
+    {
+        "id": 10,
+        "nombre": "Ram\u00edrez",
+        "numeroMiembros": 6,
+        "generadorAdquirido": false
+    },
+    {
+        "id": 11,
+        "nombre": "Flores",
+        "numeroMiembros": 4,
+        "generadorAdquirido": true
+    },
+    {
+        "id": 12,
+        "nombre": "Ruiz",
+        "numeroMiembros": 3,
+        "generadorAdquirido": false
+    },
+    {
+        "id": 13,
+        "nombre": "D\u00edaz",
+        "numeroMiembros": 5,
+        "generadorAdquirido": true
+    },
+    {
+        "id": 14,
+        "nombre": "Castillo",
+        "numeroMiembros": 7,
+        "generadorAdquirido": false
+    },
+    {
+        "id": 15,
+        "nombre": "Jim\u00e9nez",
+        "numeroMiembros": 6,
+        "generadorAdquirido": true
+    }
+]

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas del Censo Energético</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Estadísticas del Censo Energético</h1>
+
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card bg-primary text-white">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Total Familias</h5>
+                        <p>{{ total_familias }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-success text-white">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Familias con Generador</h5>
+                        <p>
+                            {{ familias_con_generador }} 
+                            {% if total_familias > 0 %} 
+                                ({{ (familias_con_generador / total_familias * 100)|round(2) }}%) 
+                            {% else %} 
+                                (0%) 
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-info text-white">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Total Transacciones</h5>
+                        <p>{{ total_transacciones }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-12 text-center">
+                <div class="btn-group" role="group" aria-label="Sección de Estadísticas">
+                    <a href="{{ url_for('estadisticas', section='familias') }}" 
+                       class="btn {{ 'btn-success' if section == 'familias' else 'btn-outline-success' }}">Familias</a>
+                    <a href="{{ url_for('estadisticas', section='generadores') }}" 
+                       class="btn {{ 'btn-success' if section == 'generadores' else 'btn-outline-success' }}">Generadores</a>
+                </div>
+            </div>
+        </div>
+
+        {% if section == 'familias' %}
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Buscar Familia</h5>
+                            <form method="get" action="{{ url_for('estadisticas') }}" class="row g-3">
+                                <input type="hidden" name="section" value="familias">
+                                <div class="col-md-4">
+                                    <select name="searchAttribute" class="form-select">
+                                        <option value="nombre">Nombre</option>
+                                        <option value="numeroMiembros">Número de Miembros</option>
+                                        <option value="generadorAdquirido">Generador Adquirido</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" name="searchValue" class="form-control" placeholder="Valor a buscar" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary">Buscar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if search_value and not search_results %}
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="alert alert-danger text-center" role="alert">
+                        No se encontraron resultados para "{{ search_value }}" en el atributo {{ search_attribute }}.
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if search_results %}
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Resultados de Búsqueda</h5>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Número de Miembros</th>
+                                        <th>Generador Adquirido</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for result in search_results %}
+                                    <tr>
+                                        <td>
+                                            {% if search_attribute == 'nombre' %}
+                                                <span class="highlight">{{ result.nombre }}</span>
+                                            {% else %}
+                                                {{ result.nombre }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if search_attribute == 'numeroMiembros' %}
+                                                <span class="highlight">{{ result.numeroMiembros }}</span>
+                                            {% else %}
+                                                {{ result.numeroMiembros }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if search_attribute == 'generadorAdquirido' %}
+                                                {% if result.generadorAdquirido %}
+                                                    <span class="badge bg-success highlight">Sí</span>
+                                                {% else %}
+                                                    <span class="badge bg-danger highlight">No</span>
+                                                {% endif %}
+                                            {% else %}
+                                                {% if result.generadorAdquirido %}
+                                                    <span class="badge bg-success">Sí</span>
+                                                {% else %}
+                                                    <span class="badge bg-danger">No</span>
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% endif %}
+
+        {% if section == 'generadores' %}
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Buscar Generador</h5>
+                        <form method="get" action="{{ url_for('estadisticas') }}" class="row g-3">
+                            <input type="hidden" name="section" value="generadores">
+                            <div class="col-md-4">
+                                <select name="searchAttribute" class="form-select">
+                                    <option value="marca">Marca</option>
+                                    <option value="modelo">Modelo</option>
+                                    <option value="uso">Uso</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" name="searchValue" class="form-control" placeholder="Valor a buscar" required>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary">Buscar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if search_value and not search_results %}
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <div class="alert alert-danger text-center" role="alert">
+                    No se encontraron resultados para "{{ search_value }}" en el atributo {{ search_attribute }}.
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if search_results %}
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Resultados de Búsqueda</h5>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Marca</th>
+                                    <th>Modelo</th>
+                                    <th>Costo</th>
+                                    <th>Consumo por Hora</th>
+                                    <th>Generación</th>
+                                    <th>Uso</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for result in search_results %}
+                                <tr>
+                                    <td>
+                                        {% if search_attribute == 'marca' %}
+                                            <span class="highlight">{{ result.marca }}</span>
+                                        {% else %}
+                                            {{ result.marca }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if search_attribute == 'modelo' %}
+                                            <span class="highlight">{{ result.modelo }}</span>
+                                        {% else %}
+                                            {{ result.modelo }}
+                                        {% endif %}
+                                    </td>
+                                    <td>${{ "%.2f"|format(result.costo) }}</td>
+                                    <td>{{ "%.2f"|format(result.consumoPorHora) }} L/h</td>
+                                    <td>{{ "%.2f"|format(result.generacion) }} kW</td>
+                                    <td>
+                                        {% if search_attribute == 'uso' %}
+                                            <span class="highlight">{{ result.uso }}</span>
+                                        {% else %}
+                                            {{ result.uso }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% endif %}
+
+        <!-- Método de Ordenamiento para todas las secciones -->
+        <div class="row mb-3">
+            <div class="col-md-12 text-center">
+                <div class="btn-group" role="group" aria-label="Método de Ordenamiento">
+                    <a href="{{ url_for('estadisticas', orderBy=request.args.get('orderBy', ''), order=request.args.get('order', 'ascendente'), sortMethod='quicksort', section=request.args.get('section', 'familias')) }}" 
+                       class="btn {{ 'btn-primary' if sort_method == 'quicksort' else 'btn-outline-primary' }}">Quicksort</a>
+                    <a href="{{ url_for('estadisticas', orderBy=request.args.get('orderBy', ''), order=request.args.get('order', 'ascendente'), sortMethod='mergesort', section=request.args.get('section', 'familias')) }}" 
+                       class="btn {{ 'btn-primary' if sort_method == 'mergesort' else 'btn-outline-primary' }}">Mergesort</a>
+                    <a href="{{ url_for('estadisticas', orderBy=request.args.get('orderBy', ''), order=request.args.get('order', 'ascendente'), sortMethod='shellsort', section=request.args.get('section', 'familias')) }}" 
+                       class="btn {{ 'btn-primary' if sort_method == 'shellsort' else 'btn-outline-primary' }}">Shellsort</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Selector de Sección -->
+        <div class="row mb-3">
+            <div class="col-md-12 text-center">
+                <div class="btn-group" role="group" aria-label="Sección de Estadísticas">
+                    <a href="{{ url_for('estadisticas', section='familias') }}" 
+                       class="btn {{ 'btn-success' if section == 'familias' else 'btn-outline-success' }}">Familias</a>
+                    <a href="{{ url_for('estadisticas', section='generadores') }}" 
+                       class="btn {{ 'btn-success' if section == 'generadores' else 'btn-outline-success' }}">Generadores</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Familias -->
+        {% if section == 'familias' %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title mb-4">Estadísticas de Familias</h2>
+
+                <div class="alert alert-secondary text-center">
+                    <p>
+                        <span class="text-success">▲</span> Flecha verde indica orden ascendente. <br>
+                        <span class="text-danger">▼</span> Flecha roja indica orden descendente.
+                    </p>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Nombre 
+                                    <a href="{{ url_for('estadisticas', orderBy='nombre', order='ascendente', sortMethod=sort_method, section='familias') }}" class="text-success">▲</a>
+                                    <a href="{{ url_for('estadisticas', orderBy='nombre', order='descendente', sortMethod=sort_method, section='familias') }}" class="text-danger">▼</a>
+                                </th>
+                                <th>
+                                    Número de Miembros 
+                                    <a href="{{ url_for('estadisticas', orderBy='numeroMiembros', order='ascendente', sortMethod=sort_method, section='familias') }}" class="text-success">▲</a>
+                                    <a href="{{ url_for('estadisticas', orderBy='numeroMiembros', order='descendente', sortMethod=sort_method, section='familias') }}" class="text-danger">▼</a>
+                                </th>
+                                <th>
+                                    Generador Adquirido 
+                                    <a href="{{ url_for('estadisticas', orderBy='generadorAdquirido', order='ascendente', sortMethod=sort_method, section='familias') }}" class="text-success">▲</a>
+                                    <a href="{{ url_for('estadisticas', orderBy='generadorAdquirido', order='descendente', sortMethod=sort_method, section='familias') }}" class="text-danger">▼</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for familia in familias_stats %}
+                            <tr>
+                                <td>{{ familia.nombre }}</td>
+                                <td>{{ familia.numeroMiembros }}</td>
+                                <td>
+                                    {% if familia.generadorAdquirido %}
+                                    <span class="badge bg-success">Sí</span>
+                                    {% else %}
+                                    <span class="badge bg-danger">No</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Sección de Generadores-->
+        {% if section == 'generadores' %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title mb-4">Estadísticas de Generadores</h2>
+
+                <div class="alert alert-secondary text-center">
+                    <p>
+                        <span class="text-success">▲</span> Flecha verde indica orden ascendente. <br>
+                        <span class="text-danger">▼</span> Flecha roja indica orden descendente.
+                    </p>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Marca 
+                                    <a href="{{ url_for('estadisticas', orderBy='marca', order='ascendente', sortMethod=sort_method, section='generadores') }}" class="text-success">▲</a>
+                                    <a href="{{ url_for('estadisticas', orderBy='marca', order='descendente', sortMethod=sort_method, section='generadores') }}" class="text-danger">▼</a>
+                                </th>
+                                <th>
+                                    Cantidad 
+                                    <a href="{{ url_for('estadisticas', orderBy='cantidad', order='ascendente', sortMethod=sort_method, section='generadores') }}" class="text-success">▲</a>
+                                    <a href="{{ url_for('estadisticas', orderBy='cantidad', order='descendente', sortMethod=sort_method, section='generadores') }}" class="text-danger">▼</a>
+                                </th>
+                                <th>
+                                    Costo Promedio 
+                                    <a href="{{ url_for('estadisticas', orderBy='costo_promedio', order='ascendente', sortMethod=sort_method, section='generadores') }}" class="text-success">▲</a>
+                                    <a href="{{ url_for('estadisticas', orderBy='costo_promedio', order='descendente', sortMethod=sort_method, section='generadores') }}" class="text-danger">▼</a>
+                                </th>
+                                <th>
+                                    Generación Promedio 
+                                    <a href="{{ url_for('estadisticas', orderBy='generacion_promedio', order='ascendente', sortMethod=sort_method, section='generadores') }}" class="text-success">▲</a>
+                                    <a href="{{ url_for('estadisticas', orderBy='generacion_promedio', order='descendente', sortMethod=sort_method, section='generadores') }}" class="text-danger">▼</a>
+                                </th>
+                                <th>
+                                    Consumo Promedio 
+                                    <a href="{{ url_for('estadisticas', orderBy='consumo_promedio', order='ascendente', sortMethod=sort_method, section='generadores') }}" class="text-success">▲</a>
+                                    <a href="{{ url_for('estadisticas', orderBy='consumo_promedio', order='descendente', sortMethod=sort_method, section='generadores') }}" class="text-danger">▼</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for stat in generadores_stats %}
+                            <tr>
+                                <td>{{ stat.marca }}</td>
+                                <td>{{ stat.cantidad }}</td>
+                                <td>${{ "%.2f"|format(stat.costo_promedio) }}</td>
+                                <td>{{ "%.2f"|format(stat.generacion_promedio) }} kW</td>
+                                <td>{{ "%.2f"|format(stat.consumo_promedio) }} L/h</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="text-center">
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">Volver al Inicio</a>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
