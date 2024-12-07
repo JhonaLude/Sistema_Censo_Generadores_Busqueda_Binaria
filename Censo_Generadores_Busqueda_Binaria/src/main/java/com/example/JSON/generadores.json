@@ -1,0 +1,137 @@
+[
+    {
+        "id": 1,
+        "marca": "Honda",
+        "modelo": "EU2200i",
+        "costo": 1110.0,
+        "consumoPorHora": 0.1,
+        "generacion": 2.2,
+        "uso": "Residencial"
+    },
+    {
+        "id": 2,
+        "marca": "Generac",
+        "modelo": "GP8000E",
+        "costo": 1200.0,
+        "consumoPorHora": 0.9,
+        "generacion": 8.0,
+        "uso": "Comercial"
+    },
+    {
+        "id": 3,
+        "marca": "Yamaha",
+        "modelo": "EF2000iSv2",
+        "costo": 950.0,
+        "consumoPorHora": 0.08,
+        "generacion": 2.0,
+        "uso": "Respaldo de Emergencia"
+    },
+    {
+        "id": 4,
+        "marca": "Champion",
+        "modelo": "100520",
+        "costo": 800.0,
+        "consumoPorHora": 0.6,
+        "generacion": 6.5,
+        "uso": "Agr\u00edcola"
+    },
+    {
+        "id": 5,
+        "marca": "Briggs & Stratton",
+        "modelo": "P4500",
+        "costo": 950.0,
+        "consumoPorHora": 0.4,
+        "generacion": 4.5,
+        "uso": "Residencial"
+    },
+    {
+        "id": 6,
+        "marca": "Westinghouse",
+        "modelo": "WGen9500DF",
+        "costo": 1400.0,
+        "consumoPorHora": 1.1,
+        "generacion": 9.5,
+        "uso": "Comercial"
+    },
+    {
+        "id": 7,
+        "marca": "Cat",
+        "modelo": "RP12000E",
+        "costo": 2900.0,
+        "consumoPorHora": 1.2,
+        "generacion": 12.0,
+        "uso": "Industrial"
+    },
+    {
+        "id": 8,
+        "marca": "Pulsar",
+        "modelo": "PG7750B",
+        "costo": 800.0,
+        "consumoPorHora": 0.75,
+        "generacion": 7.7,
+        "uso": "Agr\u00edcola"
+    },
+    {
+        "id": 9,
+        "marca": "Dewalt",
+        "modelo": "DXGNR7000",
+        "costo": 1000.0,
+        "consumoPorHora": 0.9,
+        "generacion": 7.0,
+        "uso": "Respaldo de Emergencia"
+    },
+    {
+        "id": 10,
+        "marca": "Kohler",
+        "modelo": "PRO9.0",
+        "costo": 1500.0,
+        "consumoPorHora": 1.0,
+        "generacion": 9.0,
+        "uso": "Comercial"
+    },
+    {
+        "id": 11,
+        "marca": "WEN",
+        "modelo": "DF475T",
+        "costo": 600.0,
+        "consumoPorHora": 0.5,
+        "generacion": 4.7,
+        "uso": "Residencial"
+    },
+    {
+        "id": 12,
+        "marca": "Firman",
+        "modelo": "H07552",
+        "costo": 750.0,
+        "consumoPorHora": 0.7,
+        "generacion": 7.5,
+        "uso": "Agr\u00edcola"
+    },
+    {
+        "id": 13,
+        "marca": "Predator",
+        "modelo": "9500",
+        "costo": 1300.0,
+        "consumoPorHora": 1.1,
+        "generacion": 9.5,
+        "uso": "Industrial"
+    },
+    {
+        "id": 14,
+        "marca": "LIfan",
+        "modelo": "ESI3600iER",
+        "costo": 1100.0,
+        "consumoPorHora": 0.3,
+        "generacion": 3.6,
+        "uso": "Comercial"
+    },
+    {
+        "id": 15,
+        "marca": "A-iPower",
+        "modelo": "SUA12000E",
+        "costo": 1200.0,
+        "consumoPorHora": 1.0,
+        "generacion": 12.0,
+        "uso": "Respaldo de Emergencia"
+    }
+]

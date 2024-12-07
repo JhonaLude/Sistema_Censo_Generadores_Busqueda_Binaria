@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Generador - Censo Energético</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Registro de Generador Eléctrico</h2>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="POST">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="marca" class="form-label">Marca del Generador</label>
+                                    <input type="text" class="form-control" id="marca" name="marca" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="modelo" class="form-label">Modelo</label>
+                                    <input type="text" class="form-control" id="modelo" name="modelo" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="costo" class="form-label">Costo del Generador ($)</label>
+                                <input type="number" class="form-control" id="costo" name="costo" step="0.01" min="0" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="consumoPorHora" class="form-label">Consumo de Combustible por Hora (galones)</label>
+                                <input type="number" class="form-control" id="consumoPorHora" name="consumoPorHora" step="0.01" min="0" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="generacion" class="form-label">Capacidad de Generación (kW)</label>
+                                <input type="number" class="form-control" id="generacion" name="generacion" step="0.01" min="0" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Uso Principal</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="uso" id="residencial" value="Residencial" required>
+                                    <label class="form-check-label" for="residencial">Uso Residencial</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="uso" id="comercial" value="Comercial">
+                                    <label class="form-check-label" for="comercial">Uso Comercial</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="uso" id="industrial" value="Industrial">
+                                    <label class="form-check-label" for="industrial">Uso Industrial</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="uso" id="agricola" value="Agrícola">
+                                    <label class="form-check-label" for="agricola">Uso Agrícola</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="uso" id="respaldo" value="Respaldo de Emergencia">
+                                    <label class="form-check-label" for="respaldo">Respaldo de Emergencia</label>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">Registrar Generador</button>
+                                <a href="{{ url_for('index') }}" class="btn btn-secondary">Volver al Inicio</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
